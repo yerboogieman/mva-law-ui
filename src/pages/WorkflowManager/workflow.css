@@ -1,0 +1,35 @@
+:root {
+    --width: .75em;
+    --border-radius: 4px;
+}
+
+.accordion-item {
+    border: none;
+}
+
+.accordion-item[data-no_children] .accordion-button::after {
+    background-image: none;
+}
+
+.accordion-button {
+    background-color: white;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: white;
+}
+
+.accordion-button::after {
+    width: var(--width);
+    height: var(--width);
+    background-size: var(--width);
+}
+
+.accordion-item .accordion-button {
+    border: 1px solid #096DD9;
+    border-radius: var(--border-radius) !important;
+}
+
+.accordion-body svg {
+    z-index: 1;
+}

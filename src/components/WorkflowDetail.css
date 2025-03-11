@@ -1,0 +1,81 @@
+.parent1 {
+    position: static;
+    border: 1px solid #666666;
+    border-radius: 5px;
+    width: 300px;
+    height: 50px;
+    transition: height 0.5s;
+}
+
+.parent1:hover {
+    height: 150px;
+}
+
+ul.bull {
+    max-width: 400px;
+    margin: 0 auto;
+    list-style-type: none;
+    counter-reset: steps;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+ul.bull li {
+    padding: 0 0 15px 30px;
+    position: relative;
+    margin: 0;
+}
+
+ul.bull li:before {
+    position: absolute;
+    left: 7.5px;
+    top: 0;
+    content: "";
+    height: 100%;
+    width: 0;
+}
+
+ul.bull li:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 13px;
+    background: #fff;
+}
+
+li.completed:before {
+    border-left: 2px solid #2282D6;
+}
+
+li.completed:after {
+    color: #2282D6;
+    content: 'check_circle';
+    font-family: 'Material Icons', emoji;
+}
+
+li.not_started:before {
+    border-left: 2px solid #666666;
+}
+
+li.not_started:after {
+    color: #666666;
+    content: 'circle';
+    font-family: 'Material Icons Outlined', emoji;
+}
+
+li.started:before {
+    border-left: 2px solid #666666;
+}
+
+li.started:after {
+    color: #2282D6;
+    content: 'circle';
+    font-family: 'Material Icons Outlined', emoji;
+}
+
+ul.bull li:last-of-type:before {
+    border: none;
+}
