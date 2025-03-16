@@ -365,7 +365,7 @@ jb_api.get_workflow_view = function (process_instance_business_key = "") {
 };
 
 jb_api.update_job = function (values) {
-    return axiosInstance.patch("/jobs", {
+    return axiosInstance.patch("/cases", {
         id: values.id,
         properties: {
             values
@@ -374,12 +374,12 @@ jb_api.update_job = function (values) {
 };
 
 jb_api.update_whole_job = function (body) {
-    return axiosInstance.put("/jobs", body);
+    return axiosInstance.put("/cases", body);
 };
 
 
 jb_api.get_job = function (job_id) {
-    return axiosInstance.get(`/jobs/${job_id}`).then(response => {
+    return axiosInstance.get(`/cases/${job_id}`).then(response => {
         if (response.success === true) {
             return jb_utils.deep_freeze(response);
         } else {
@@ -389,7 +389,7 @@ jb_api.get_job = function (job_id) {
 };
 
 jb_api.update_job_item = function (job_id, values) {
-    return axiosInstance.patch(`/jobs/${job_id}/items`, {
+    return axiosInstance.patch(`/cases/${job_id}/items`, {
         id: values.id,
         properties: {
             values
@@ -424,7 +424,7 @@ jb_api.get_jobs = function (config = {}) {
 
     return axiosInstance.request({
         method: "GET",
-        url: "/jobs/contractor",
+        url: "/cases/assigned",
         params
     }).then(function (response) {
         return response;
@@ -441,7 +441,7 @@ jb_api.create_job = function (config = {}) {
         items: config.items
     };
 
-    return axiosInstance.post("/jobs", body);
+    return axiosInstance.post("/cases", body);
 };
 
 jb_api.complete_workflow_step = function (config = {}) {
@@ -474,7 +474,7 @@ jb_api.fetch_step_info_panel = function (process_instance_id, task_definition_ke
 };
 
 jb_api.delete_job = function (job_id) {
-    return axiosInstance.delete("/jobs/" + job_id);
+    return axiosInstance.delete("/cases/" + job_id);
 };
 
 jb_api.modify_job = function (config = {}) {
@@ -487,7 +487,7 @@ jb_api.modify_job = function (config = {}) {
         }
     };
 
-    return axiosInstance.patch("/jobs", body);
+    return axiosInstance.patch("/cases", body);
 };
 
 
