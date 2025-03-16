@@ -1,6 +1,5 @@
 import React from "react";
 import zxcvbn from "zxcvbn";
-import Dinero from "./dinero.js";
 
 const jb_utils = Object.create(null);
 
