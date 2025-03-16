@@ -1,10 +1,10 @@
-import {BASE_URL} from "../Constants";
+import {API_BASE_URL} from "../Constants";
 import {axiosInstance} from "./axiosInstance";
 import jb_utils from "./functions.jsx";
 
 const jb_api = Object.create(null);
 
-jb_api.base_url = BASE_URL;
+jb_api.base_url = API_BASE_URL;
 
 jb_api.get_jwt = function () {
     return sessionStorage.getItem("jwt") || "";

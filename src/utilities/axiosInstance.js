@@ -1,5 +1,5 @@
 import axios from "axios";
-import {BASE_URL} from "../Constants";
+import {API_BASE_URL} from "../Constants";
 import jb_utils from "./functions.jsx";
 
 const headers = {
@@ -8,7 +8,7 @@ const headers = {
 };
 
 export const axiosInstance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: API_BASE_URL,
     headers
 });
 
