@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
-import JobModal from "../../components/JobModal/JobModal";
+import CaseModal from "../../components/JobModal/JobModal";
 import api from "../../utilities/api";
 import WorkflowPanel from "./WorkflowPanel";
 import WorkflowTask from "./WorkflowTask";
@@ -41,11 +41,11 @@ export default function WorkflowManager() {
     useEffect(function () {
 
         window.addEventListener("popstate", function onPop() {
-            navigate("/job-list"); // just go back to the job list
+            navigate("/case-list"); // just go back to the job list
         });
 
         // get them workflows
-        api.get_jobs()
+        api.get_cases()
             .then(response => {
                 if (response.success) {
                     setWorkListItems(response.data);
@@ -62,7 +62,7 @@ export default function WorkflowManager() {
 
     return <>
         <div className="row pt-3">
-            {showJobModal && <JobModal show={showJobModal} setShow={setShowJobModal} job={{}}/>}
+            {showJobModal && <CaseModal show={showJobModal} setShow={setShowJobModal} job={{}}/>}
             <div className="col-sm-3">
                 <ul className="nav flex-column task-list">
                     <h3 className="text-center">Task list</h3>

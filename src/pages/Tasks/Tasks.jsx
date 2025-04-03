@@ -20,12 +20,12 @@ export default function Tasks() {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
-    const [deletingJob, setDeletingJob] = useState(false);
+    const [deletingJob, setDeletingCase] = useState(false);
 
     const [showJobModal, setShowJobModal] = useState(false);
     const [job, setJob] = useState({});
 
-    const [jobs, setJobs] = useState([]);
+    const [cases, setCases] = useState([]);
 
     const customStyles = {
         rows: {
@@ -59,15 +59,15 @@ export default function Tasks() {
 
     function loadData() {
 
-        document.title = "Job List";
+        document.title = "Case List";   // TODO: internationalize (replace English title with key "case.list")
 
-        api.get_jobs()
+        api.get_cases()
             .then((result = {}) => {
                 if (result && result.success === true) {
                     if (Array.isArray(result.data) && result.data.length > 0) {
-                        setJobs(result.data);
+                        setCases(result.data);
                     } else {
-                        jobs.length > 0 && setJobs([]);
+                        cases.length > 0 && setCases([]);
                     }
                 }
                 setLoading(false);
@@ -76,19 +76,19 @@ export default function Tasks() {
 
     useEffect(loadData, []);
 
-    function updateJob(values, actions) {
+    function updateCase(values, actions) {
         values.action = "update_job";
         if (values.new === true) {
-            values.status = "Active";
+            values.status = "Active";   // TODO: Internationalize
         }
     }
 
-    function delete_job(event) {
+    function delete_case(event) {
         const {job_id} = event.target.dataset;
 
-        setDeletingJob(true);
+        setDeletingCase(true);
 
-        api.delete_job(job_id)
+        api.delete_case(job_id)
             .then(result => {
 
                 if (result.success === true) {
@@ -110,7 +110,7 @@ export default function Tasks() {
                     });
                 }
 
-                setDeletingJob(false);
+                setDeletingCase(false);
             });
     }
 
@@ -169,7 +169,7 @@ export default function Tasks() {
                                       title="Actions" className="border-radius-8"
                                       variant="dropdown-light">
                         <Dropdown.Item className="my-1"
-                                       data-job_id={row.id} onClick={delete_job}>Delete Job</Dropdown.Item>
+                                       data-job_id={row.id} onClick={delete_case}>Delete Job</Dropdown.Item>
                     </DropdownButton>;
             }
         }
@@ -203,7 +203,7 @@ export default function Tasks() {
                     className="overflow-visible"
                     pagination
                     columns={columns}
-                    data={jobs}
+                    data={cases}
                     defaultSortFieldId={1}
                     progressPending={loading}
                     noDataComponent={noData()}

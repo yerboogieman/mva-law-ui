@@ -64,7 +64,7 @@ export default function App() {
                      </ProtectedRoute>
                   }/>
 
-                  <Route path="/job-list" element={
+                  <Route path="/case-list" element={
                      <ProtectedRoute allowedRoles={[
                         "ROLE_USER",
                         "ROLE_CLIENT",

@@ -134,16 +134,16 @@ export default function Businesses() {
 
     function create_fake_job() {
 
-        api.create_job()
+        api.create_case()
             .then(function (response) {
 
 
             });
     }
 
-    function delete_job() {
+    function delete_case() {
 
-        api.delete_job("66301bdfbd480434b6338a23")
+        api.delete_case("66301bdfbd480434b6338a23")
             .then(function (response) {
 
             });
@@ -171,7 +171,7 @@ export default function Businesses() {
             <button onClick={modify_job}>
                 Modify Fake Job
             </button>
-            <button onClick={delete_job}>
+            <button onClick={delete_case}>
                 Delete Fake Job
             </button>
             <div>

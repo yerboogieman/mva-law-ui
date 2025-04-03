@@ -98,7 +98,7 @@ export default function JobModal({
             });
     }
 
-    function create_job(values) {
+    function create_case(values) {
         const body = {
             name: values.name,
             description: values.description,
@@ -108,7 +108,7 @@ export default function JobModal({
 
         setCreatingJob(true);
 
-        api.create_job(body)
+        api.create_case(body)
             .then(result => {
                 if (result.success === true) {
                     setShow(false);
@@ -156,7 +156,7 @@ export default function JobModal({
                         name: Yup.string().required()
                     })}
                     onSubmit={(values, actions) => {
-                        create_job(values, actions);
+                        create_case(values, actions);
                     }}>
                 {(props) => (
                     <>

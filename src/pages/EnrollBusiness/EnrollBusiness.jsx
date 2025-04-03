@@ -50,7 +50,7 @@ export default function EnrollBusiness() {
                 dispatch(setCurrentUser(user));
                 sessionStorage.setItem("token", token);
 
-                navigate("/job-list");
+                navigate("/case-list");
             } else {
                 setToastConfig({
                     show: true,

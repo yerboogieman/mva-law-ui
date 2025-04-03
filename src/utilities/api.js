@@ -415,7 +415,7 @@ jb_api.get_workflow_panel_data = function (task_id, step_id) {
         });
 };
 
-jb_api.get_jobs = function (config = {}) {
+jb_api.get_cases = function (config = {}) {
 
     const params = {
         status: config.status || "Active",
@@ -432,7 +432,7 @@ jb_api.get_jobs = function (config = {}) {
 
 };
 
-jb_api.create_job = function (config = {}) {
+jb_api.create_case = function (config = {}) {
 
     const body = {
         name: config.name,
@@ -473,7 +473,7 @@ jb_api.fetch_step_info_panel = function (process_instance_id, task_definition_ke
         });
 };
 
-jb_api.delete_job = function (job_id) {
+jb_api.delete_case = function (job_id) {
     return axiosInstance.delete("/cases/" + job_id);
 };
 

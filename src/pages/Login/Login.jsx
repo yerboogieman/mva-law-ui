@@ -37,7 +37,7 @@ export default function Login() {
                 const {user} = result;
                 dispatch(setCurrentUser(user));
                 sessionStorage.setItem("token", result.token);
-                navigate("/job-list");
+                navigate("/case-list");
             } else {
                 setToastConfig({
                     show: true, header_text: strings.toast.error.header, body_text: strings.toast.error.body,
@@ -66,7 +66,7 @@ export default function Login() {
                         <i className="fa-solid fa-j" style={{transform: "translateX(2px)"}}></i>
                         <i className="fa-solid fa-f" style={{transform: "translateY(-3px)"}}></i>
                     </div>
-                    Job Flow Pro
+                    MVA Law // TODO: Internationalize
                 </div>
             </div>
         </nav>
