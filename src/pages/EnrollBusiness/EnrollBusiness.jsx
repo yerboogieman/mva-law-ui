@@ -8,14 +8,14 @@ import Toast from "../../components/Toast/Toast";
 import {LanguageContext} from "../../contexts/LanguageContext";
 import {setCurrentUser} from "../../redux/currentUserHolder";
 import api from "../../utilities/api";
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 
 import strings from "./i18n-strings";
 
 export default function EnrollBusiness() {
 
     const language = useContext(LanguageContext);
-    strings.setLanguage(language || jb_utils.get_device_language());
+    strings.setLanguage(language || mva_utils.get_device_language());
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -110,7 +110,7 @@ export default function EnrollBusiness() {
                             .min(5, strings.password_length)
                             .test("strongPassword", function (value, context) {
 
-                                const password_strength = jb_utils.check_password_strength(value);
+                                const password_strength = mva_utils.check_password_strength(value);
                                 const {
                                     color,
                                     score
@@ -207,7 +207,7 @@ export default function EnrollBusiness() {
                                                     {strings.password}
                                                 </label>
                                                 <Field type="password" name="new_password" className="form-control"
-                                                       onKeyUp={jb_utils.debounce(function (event) {
+                                                       onKeyUp={mva_utils.debounce(function (event) {
                                                            if (event.target.value === "") {
                                                                setPwScore(-1);
                                                                setPwScoreColor("#C5C8CB");
@@ -287,11 +287,11 @@ export default function EnrollBusiness() {
                                                style={{fontSize: "7em"}}></i>
                                         </div>
                                         <h3 className="mb-3">
-                                            Get started with JobFlowPro
+                                            Get started with CaseFlowPro
                                         </h3>
                                         <div className="text-body-secondary mb-3">
-                                            The easiest way to get manage your jobs as a contractor. Track your
-                                            jobs, keep your client's up
+                                            The easiest way to get manage your cases as a contractor. Track your
+                                            cases, keep your client's up
                                             to date
                                             and make sure nothing gets lost.
                                         </div>

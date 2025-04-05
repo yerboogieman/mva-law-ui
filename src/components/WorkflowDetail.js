@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import './WorkflowDetail.css'
 
-export default function WorkflowDetail({jobId}) {
+export default function WorkflowDetail({caseId}) {
 
    // const [loading, setLoading] = useState(true)
    // const [workflowData, setWorkflowData] = useState([]);
    //
    // useEffect(() => {
-   //    fetch(`http://localhost:8080/jobs/${jobId}`)
+   //    fetch(`http://localhost:8080/cases/${caseId}`)
    //       .then((res) => res.json())
    //       .then(value => {
    //          if (value.success === true) {
@@ -178,7 +178,7 @@ const workflowViewData = [
                },
                {
                   "id": "isProceed",
-                  "name": "Proceed with job?",
+                  "name": "Proceed with case?",
                   "readable": true,
                   "writable": true,
                   "required": false
@@ -202,16 +202,16 @@ const workflowViewData = [
       ]
    },
    {
-      "id": "job",
-      "label": "Job",
+      "id": "case",
+      "label": "Case",
       "steps": [
          {
-            "id": "completeJobItems",
-            "label": "Complete job items"
+            "id": "completeCaseItems",
+            "label": "Complete case items"
          },
          {
-            "id": "clientJobApproval",
-            "label": "Client job approval"
+            "id": "clientCaseApproval",
+            "label": "Client case approval"
          }
       ]
    },

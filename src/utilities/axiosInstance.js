@@ -1,6 +1,6 @@
 import axios from "axios";
 import {API_BASE_URL} from "../Constants";
-import jb_utils from "./functions.jsx";
+import mva_utils from "./functions.jsx";
 
 const headers = {
     'Accept': 'application/json',
@@ -41,12 +41,12 @@ axiosInstance.interceptors.response.use(function (response) {
             response.data.success = true;
         }
 
-        return jb_utils.deep_freeze(response.data);
+        return mva_utils.deep_freeze(response.data);
     }
 
     response.data.success = false;
 
-    return jb_utils.deep_freeze(response);
+    return mva_utils.deep_freeze(response);
 
 }, function (error) {
 

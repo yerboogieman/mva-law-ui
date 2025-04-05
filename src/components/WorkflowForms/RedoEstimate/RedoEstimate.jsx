@@ -8,16 +8,17 @@ import {Link, useNavigate} from "react-router-dom";
 import Toast from "../../../components/Toast/Toast";
 import * as Yup from "yup";
 import api from "../../../utilities/api.js";
-import jb_utils from "../../../utilities/functions.jsx";
+import mva_utils from "../../../utilities/functions.jsx";
 
 import strings from "./i18n-strings";
 
 export default function RedoEstimate({
-    jobId = ""
+    caseId = "",
+    setSelectedStep
 }) {
 
     const language = useContext(LanguageContext);
-    strings.setLanguage(language || jb_utils.get_device_language());
+    strings.setLanguage(language || mva_utils.get_device_language());
 
     const [panelData, setPanelData] = useState({});
     const [completingStep, setCompletingStep] = useState(false);
@@ -61,16 +62,16 @@ export default function RedoEstimate({
 
     useEffect(() => {
 
-        if (typeof jobId === "string" && jobId.length > 0) {
+        if (typeof caseId === "string" && caseId.length > 0) {
 
-            api.get_job(jobId)
+            api.get_case(caseId)
                 .then(result => {
                     if (result.success === true) {
                         setPanelData(result);
                     }
                 });
         }
-    }, [jobId]);
+    }, [caseId]);
 
     function submit_to_client() {
 
@@ -118,14 +119,14 @@ export default function RedoEstimate({
 
     function save_estimate(values, show_toast = true) {
 
-        // first make sure all job items have a name
+        // first make sure all case items have a name
         const items = values.items;
 
         if (items.length > 0) {
             values.items = items.filter(item => item.name.length > 0);
         }
 
-        return api.update_whole_job(values)
+        return api.update_whole_case(values)
             .then(r => {
                 if (r.success === true) {
                     if (show_toast) {
@@ -174,7 +175,7 @@ export default function RedoEstimate({
                     onSubmit={save_estimate}
                     validationSchema={Yup.object({
                         name: Yup.string().required(
-                            strings.formatString(`${strings.job} ${strings.name}`,
+                            strings.formatString(`${strings.case} ${strings.name}`,
                                 strings.yup.is_required)),
                         description: Yup.string().notRequired()
                     })}
@@ -187,24 +188,24 @@ export default function RedoEstimate({
                             <Field type="hidden" name="id"/>
 
                             <div className="mb-3">
-                                <label htmlFor="name" className="form-label tc">{strings.job} {strings.name}</label>
+                                <label htmlFor="name" className="form-label tc">{strings.case} {strings.name}</label>
                                 <Field type="text" name="name" id="name" className="form-control"/>
                                 <ErrorMessage name="name" component="div" className="text-danger"/>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="description"
-                                       className="form-label tc">{strings.job} {strings.description}</label>
+                                       className="form-label tc">{strings.case} {strings.description}</label>
                                 <Field type="text" name="description" id="description" className="form-control"/>
                                 <ErrorMessage name="description" component="div" className="text-danger"/>
                             </div>
 
                             <div>
-                                <h4>{strings.job + " " + strings.item + "s"}</h4>
+                                <h4>{strings.case + " " + strings.item + "s"}</h4>
 
                                 <FieldArray name="items">
                                     {
                                         function (fieldArrayRenderProps) {
-                                            return JobItem(fieldArrayRenderProps, values);
+                                            return CaseItem(fieldArrayRenderProps, values);
                                         }
                                     }
                                 </FieldArray>
@@ -237,7 +238,7 @@ export default function RedoEstimate({
         </div>
     </>;
 
-    function JobItem({
+    function CaseItem({
         insert,
         remove,
         push
@@ -254,7 +255,7 @@ export default function RedoEstimate({
                     }
 
                     return <div className={"border border-1 rounded p-3 mb-3" + approval_class}
-                                key={index + "job-item"}>
+                                key={index + "case-item"}>
                         <div className="row" key={index + "-step"}>
                             <div className="col mb-3">
                                 <div className="row">
@@ -305,8 +306,8 @@ export default function RedoEstimate({
                                         placement={"bottom"}
                                         overlay={
                                             <Tooltip
-                                                id={`tooltip-${index}-job-item`}>
-                                                All jobs must
+                                                id={`tooltip-${index}-case-item`}>
+                                                All cases must
                                                 have at
                                                 least one thing to do.
                                             </Tooltip>
@@ -344,7 +345,7 @@ export default function RedoEstimate({
                     cost: 0,
                     rejectionReason: ""
                 })}>
-                <i className="fa-duotone fa-circle-plus me-2"></i>Add Job Item
+                <i className="fa-duotone fa-circle-plus me-2"></i>Add Case Item
             </button>
         </div>;
     }

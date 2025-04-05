@@ -4,6 +4,8 @@ import Loading from "react-loading";
 import ClientReviewsEstimate from "../../components/WorkflowForms/ClientReviewsEstimate/ClientReviewsEstimate";
 import CreateEstimate from "../../components/WorkflowForms/CreateEstimate/CreateEstimate";
 import RedoEstimate from "../../components/WorkflowForms/RedoEstimate/RedoEstimate";
+import IntroAndInitialAdvice from "../../components/WorkflowForms/NewClientSignup/IntroAndInitialAdvice/IntroAndInitialAdvice";
+import GatherInfoForm from "../../components/WorkflowForms/NewClientSignup/GatherInfo/GatherInfo.jsx";
 
 export default function WorkflowPanel({
     listItem,
@@ -22,7 +24,7 @@ export default function WorkflowPanel({
                   ? <><Loading type="spin" color="orange"/> </>
                   : <Fade in={true} className="">
                       <div>{selectedStep
-                            ? <Panel jobId={selectedWorkListItem}
+                            ? <Panel caseId={selectedWorkListItem}
                                      step={selectedStep}/>
                             : <ErrorPanel/>}
                       </div>
@@ -34,12 +36,20 @@ export default function WorkflowPanel({
 
     function Panel({
         step,
-        jobId
+        caseId
     }) {
 
         switch (step) {
+            case "introAndInitialAdvice": {
+                return <IntroAndInitialAdvice caseId={caseId} setSelectedStep={function (value) {
+                    setSelectedStep(value);
+                }}/>;
+            }
+            case "gatherInformation": {
+                return <GatherInfoForm caseId={caseId} setSelectedStep={setSelectedStep}/>;
+            }
             case "createEstimate": {
-                return <CreateEstimate jobId={jobId} setSelectedStep={
+                return <CreateEstimate caseId={caseId} setSelectedStep={
                     function (value) {
                         setSelectedStep(value);
                     }
@@ -47,13 +57,13 @@ export default function WorkflowPanel({
             }
 
             case "clientReviewsEstimate": {
-                return <ClientReviewsEstimate jobId={jobId} setSelectedStep={function (value) {
+                return <ClientReviewsEstimate caseId={caseId} setSelectedStep={function (value) {
                     setSelectedStep(value);
                 }}/>;
             }
 
             case "contractorReDoesEstimate": {
-                return <RedoEstimate jobId={jobId} setSelectedStep={function (value) {
+                return <RedoEstimate caseId={caseId} setSelectedStep={function (value) {
                     setSelectedStep(value);
                 }}/>;
             }

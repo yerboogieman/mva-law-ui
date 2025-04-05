@@ -1,13 +1,13 @@
 import LocalizedStrings from "react-localization";
-import jb_utils from "../../../utilities/functions.jsx";
+import mva_utils from "../../../utilities/functions.jsx";
 
 import global_strings from "../../../utilities/i18n-strings-global";
 
 const local = {
     "en":{
         title: "Redo Estimate",
-        submit: "Update Job",
-        job: "Job",
+        submit: "Update Case",
+        case: "Case",
         name: "Name",
         item: "Item",
         step: "Step",
@@ -21,20 +21,24 @@ const local = {
         }
     },
     "es": {
-        title: "",
-        submit: "",
-        name: "",
-        description: "",
+        title: "Rehacer Estimación",
+        submit: "Actualizar Caso",
+        case: "Caso",
+        name: "Nombre",
+        item: "Elemento",
+        step: "Paso",
+        description: "Descripción",
+        estimate: "Estimación",
         toast: {
             error: {
-                header: "",
-                body: ""
+                header: "Error al Actualizar",
+                body: "Hubo un error al actualizar la estimación. Por favor, intente de nuevo."
             }
         }
     }
 };
 
-const merged = jb_utils.deep_merge(global_strings, local);
+const merged = mva_utils.deep_merge(global_strings, local);
 
 const strings = new LocalizedStrings(merged);
 

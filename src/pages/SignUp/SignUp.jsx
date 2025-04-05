@@ -7,14 +7,14 @@ import {Link, useNavigate} from 'react-router-dom';
 import Toast from "../../components/Toast/Toast";
 import * as Yup from "yup";
 import api from "../../utilities/api";
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 
 import strings from "./i18n-strings";
 
 export default function SignUp() {
 
     const language = useContext(LanguageContext);
-    strings.setLanguage(language || jb_utils.get_device_language());
+    strings.setLanguage(language || mva_utils.get_device_language());
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -78,14 +78,14 @@ export default function SignUp() {
                             .email(strings.yup.email_invalid)
                             .required(`${strings.email} ${strings.yup.is_required}`)
                             .test("uniqueEmail", async function (value, context) {
-                                    const check_result = await jb_utils.check_email_for_duplicate(value, context);
+                                    const check_result = await mva_utils.check_email_for_duplicate(value, context);
                                     return check_result === true || context.createError({message: strings.yup.email_invalid});
                                 }),
                         new_password: Yup.string().required(`${strings.password} ${strings.yup.is_required}`)
                             .min(5, strings.password_length)
                             .test("strongPassword", function (value, context) {
 
-                                const password_strength = jb_utils.check_password_strength(value);
+                                const password_strength = mva_utils.check_password_strength(value);
                                 const {color, score} = password_strength;
 
                                 setPwScore(score);
@@ -134,7 +134,7 @@ export default function SignUp() {
                             <div className="mb-3">
                                 <label htmlFor="new_password" className="form-label tc">{strings.password}</label>
                                 <Field type="text" name="new_password" className="form-control"
-                                       onKeyUp={jb_utils.debounce(function (event) {
+                                       onKeyUp={mva_utils.debounce(function (event) {
                                            if (event.target.value === "") {
                                                setPwScore(-1);
                                                setPwScoreColor("#C5C8CB");

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
-import CaseModal from "../../components/JobModal/JobModal";
+import CaseModal from "../../components/CaseModal/CaseModal";
 import api from "../../utilities/api";
 import WorkflowPanel from "./WorkflowPanel";
 import WorkflowTask from "./WorkflowTask";
@@ -13,12 +13,12 @@ export default function WorkflowManager() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    const selected_job_from_nav = check_history(searchParams, location);
+    const selected_case_from_nav = check_history(searchParams, location);
 
     const [workListItems, setWorkListItems] = useState([]);
     const [selectedWorkListItem, setSelectedWorkListItem] = useState(null);
     const [selectedStep, setSelectedStep] = useState(null);
-    const [showJobModal, setShowJobModal] = useState(false);
+    const [showCaseModal, setShowCaseModal] = useState(false);
 
     const listItem = workListItems.find(a => a.id === selectedWorkListItem);
 
@@ -41,7 +41,7 @@ export default function WorkflowManager() {
     useEffect(function () {
 
         window.addEventListener("popstate", function onPop() {
-            navigate("/case-list"); // just go back to the job list
+            navigate("/case-list"); // just go back to the case list
         });
 
         // get them workflows
@@ -49,8 +49,8 @@ export default function WorkflowManager() {
             .then(response => {
                 if (response.success) {
                     setWorkListItems(response.data);
-                    if (selected_job_from_nav) {
-                        setSelectedWorkListItem(selected_job_from_nav);
+                    if (selected_case_from_nav) {
+                        setSelectedWorkListItem(selected_case_from_nav);
                     } else if (Array.isArray(response.data) && response.data.length > 0) {
                         const id = response.data[0].id;
                         setSelectedWorkListItem(id);
@@ -62,7 +62,7 @@ export default function WorkflowManager() {
 
     return <>
         <div className="row pt-3">
-            {showJobModal && <CaseModal show={showJobModal} setShow={setShowJobModal} job={{}}/>}
+            {showCaseModal && <CaseModal show={showCaseModal} setShow={setShowCaseModal} case_data={{}}/>}
             <div className="col-sm-3">
                 <ul className="nav flex-column task-list">
                     <h3 className="text-center">Task list</h3>
@@ -80,9 +80,9 @@ export default function WorkflowManager() {
                                                  }}
                                                  description={listItem.description}/>;
                         })
-                        : <span className="text-center my-4">No jobs found.
+                        : <span className="text-center my-4">No cases found.
                                 <button className="btn btn-link" type="button"
-                                        onClick={() => setShowJobModal(true)}>Add a job</button>
+                                        onClick={() => setShowCaseModal(true)}>Add a case</button>
                         </span>
                     }
                 </ul>
@@ -118,8 +118,8 @@ function check_history(searchParams, location) {
         return id_from_search;
     }
 
-    if (state && state.job) {
-        return state.job.id;
+    if (state && state.case) {
+        return state.case.id;
     }
 
     return null;

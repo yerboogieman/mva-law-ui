@@ -1,5 +1,5 @@
 import LocalizedStrings from "react-localization";
-import jb_utils from "../../../utilities/functions.jsx";
+import mva_utils from "../../../utilities/functions.jsx";
 
 import global_strings from "../../../utilities/i18n-strings-global";
 
@@ -7,7 +7,7 @@ const local = {
     "en":{
         title: "Client Reviews Estimate",
         submit: "Approve Estimate",
-        job: "Job",
+        case: "Case",
         name: "Name",
         item: "Item",
         step: "Step",
@@ -23,20 +23,26 @@ const local = {
         }
     },
     "es": {
-        title: "",
-        submit: "",
-        name: "",
-        description: "",
+        title: "Cliente Revisa Estimación",
+        submit: "Aprobar Estimación",
+        case: "Caso",
+        name: "Nombre",
+        item: "Elemento",
+        step: "Paso",
+        description: "Descripción",
+        disapprove_label: "Motivo de desaprobación",
+        disapproval_description: "Por favor describa detalladamente el motivo por el que rechaza para que podamos abordar correctamente sus inquietudes.",
+        estimate: "Estimación",
         toast: {
             error: {
-                header: "",
-                body: ""
+                header: "Configuración de cuenta fallida",
+                body: "Hubo un error al configurar su cuenta. Por favor revise su información e intente de nuevo."
             }
         }
     }
 };
 
-const merged = jb_utils.deep_merge(global_strings, local);
+const merged = mva_utils.deep_merge(global_strings, local);
 
 const strings = new LocalizedStrings(merged);
 

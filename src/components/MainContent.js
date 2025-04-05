@@ -3,7 +3,7 @@ import SideNav from "./SideNav/SideNav.jsx";
 import WorkflowDetail from "./WorkflowDetail";
 import workflowStepHandlers from "./WorkflowStepHandlers";
 
-const processDefinitionKey = 'contractorJobProcess'
+const processDefinitionKey = 'contractorCaseProcess'
 const stepId = 'clientReviewsEstimate'
 
 const MainContent = () => {
@@ -19,7 +19,7 @@ const MainContent = () => {
                <div className="col-sm-4 p-2">
                   <div className="card">
                      <div className="card-body">
-                        <WorkflowDetail jobId={"23"}/>
+                        <WorkflowDetail caseId={"23"}/>
                      </div>
                   </div>
                </div>

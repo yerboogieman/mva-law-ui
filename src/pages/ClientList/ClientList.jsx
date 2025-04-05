@@ -13,13 +13,13 @@ import {LanguageContext} from "../../contexts/LanguageContext";
 import {MessageContextDispatch} from "../../contexts/MessagesContext";
 import api from "../../utilities/api";
 
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 import strings from "../Login/i18n-strings";
 
 export default function ClientList() {
 
     const language = useContext(LanguageContext);
-    strings.setLanguage(language || jb_utils.get_device_language());
+    strings.setLanguage(language || mva_utils.get_device_language());
 
     const allowed_roles = useSelector(state => state.currentUserHolder.roles);
 
@@ -135,7 +135,7 @@ export default function ClientList() {
         {
             name: "Phone",
             selector: row => row.phone,
-            cell: row => <span className="fs-14 fw-500 text-gray-500">{jb_utils.format_phone(row.phone)
+            cell: row => <span className="fs-14 fw-500 text-gray-500">{mva_utils.format_phone(row.phone)
                 || "No phone"}</span>
         },
         {
