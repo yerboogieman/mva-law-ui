@@ -6,7 +6,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import DataTable from "react-data-table-component";
 import Loading from "react-loading";
 import {useNavigate} from "react-router-dom";
-import JobModal from "../../components/JobModal/JobModal";
+import CaseModal from "../../components/CaseModal/CaseModal";
 import {MessageContextDispatch} from "../../contexts/MessagesContext";
 import api from "../../utilities/api";
 
@@ -20,10 +20,10 @@ export default function Tasks() {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
-    const [deletingJob, setDeletingCase] = useState(false);
+    const [deletingCase, setDeletingCase] = useState(false);
 
-    const [showJobModal, setShowJobModal] = useState(false);
-    const [job, setJob] = useState({});
+    const [showCaseModal, setShowCaseModal] = useState(false);
+    const [case_data, setCase] = useState({});
 
     const [cases, setCases] = useState([]);
 
@@ -77,39 +77,35 @@ export default function Tasks() {
     useEffect(loadData, []);
 
     function updateCase(values, actions) {
-        values.action = "update_job";
+        values.action = "update_case";
         if (values.new === true) {
             values.status = "Active";   // TODO: Internationalize
         }
     }
 
     function delete_case(event) {
-        const {job_id} = event.target.dataset;
+        const {case_id} = event.target.dataset;
 
         setDeletingCase(true);
 
-        api.delete_case(job_id)
+        api.delete_case(case_id)
             .then(result => {
-
                 if (result.success === true) {
-
                     loadData();
-
                     toast({
                         type: "show_toast",
-                        header_text: "Job deleted",
-                        body_text: `Job was successfully deleted`,
+                        header_text: "Case deleted",
+                        body_text: `Case was successfully deleted`,
                         variant: "success"
                     });
                 } else {
                     toast({
                         type: "show_toast",
                         header_text: "Error",
-                        body_text: `Could not delete job.`,
+                        body_text: `Could not delete case.`,
                         variant: "danger"
                     });
                 }
-
                 setDeletingCase(false);
             });
     }
@@ -121,7 +117,7 @@ export default function Tasks() {
             omit: true
         },
         {
-            name: "Job Name",
+            name: "Case Name",
             selector: row => row.name,
             sortable: true,
             reorder: true,
@@ -160,7 +156,7 @@ export default function Tasks() {
         {
             name: "Actions",
             cell: function (row) {
-                return deletingJob
+                return deletingCase
                     ? <div><Button variant="outline-secondary" disabled={true}>
                         Actions<Loading color="black" height="15px" width="15px" type="bars" className="d-inline-block ms-1"/>
                 </Button></div>
@@ -169,32 +165,32 @@ export default function Tasks() {
                                       title="Actions" className="border-radius-8"
                                       variant="dropdown-light">
                         <Dropdown.Item className="my-1"
-                                       data-job_id={row.id} onClick={delete_case}>Delete Job</Dropdown.Item>
+                                       data-case_id={row.id} onClick={delete_case}>Delete Case</Dropdown.Item>
                     </DropdownButton>;
             }
         }
     ];
 
     function rowClicked(row) {
-        const job_data = Object.assign({}, row); // row is frozen, so we clone it
-        const {id} = job_data;
-        navigate(`/workflow-manager?id=${id}`, {state: {job: job_data}});
+        const case_data = Object.assign({}, row); // row is frozen, so we clone it
+        const {id} = case_data;
+        navigate(`/workflow-manager?id=${id}`, {state: {case: case_data}});
     }
 
     return <div className="ps-2">
         <div className="d-flex justify-content-between">
-            <h1 className="mt-0 text-gray-900">Jobs</h1>
+            <h1 className="mt-0 text-gray-900">Cases</h1>
 
             <div>
                 <Button className="ms-4" onClick={() => {
-                    setJob({});
-                    setShowJobModal(true);
+                    setCase({});
+                    setShowCaseModal(true);
                 }}>
-                    Add new job
+                    Add new case
                 </Button>
             </div>
         </div>
-        {showJobModal && <JobModal show={showJobModal} setShow={setShowJobModal} job={job} onUpdate={loadData}/>}
+        {showCaseModal && <CaseModal show={showCaseModal} setShow={setShowCaseModal} case_data={case_data} onUpdate={loadData}/>}
         <hr/>
 
         <Card className="">
@@ -218,15 +214,15 @@ export default function Tasks() {
             </div>
         </Card>
     </div>;
-
+    
     function noData() {
-        return <span className="my-4">No jobs found.
-            <button className="btn btn-link" type="button" onClick={newClientModal}>Add a job</button>
+        return <span className="my-4">No cases found.
+            <button className="btn btn-link" type="button" onClick={newClientModal}>Add a case</button>
         </span>;
-
-        function newClientModal() {
-            setShowJobModal(true);
-        }
     }
-};
+
+    function newClientModal() {
+        setShowCaseModal(true);
+    }
+}
 

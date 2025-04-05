@@ -1,57 +1,57 @@
 import {useState} from "react";
 
-const EMPTY_JOB_ITEM = {
+const EMPTY_CASE_ITEM = {
    title: '',
    estimatedCost: '',
    comments: ''
 };
 
-function JobDetails() {
+function CaseDetails() {
 
-   const [jobItems, setJobItems] = useState([]);
+   const [caseItems, setCaseItems] = useState([]);
 
    return (
       <div>
-         <JobForm setJobItems={setJobItems}/>
-         <JobItems jobItems={jobItems}/>
+         <CaseForm setCaseItems={setCaseItems}/>
+         <CaseItems caseItems={caseItems}/>
       </div>
    );
 }
 
-function JobForm({setJobItems}) {
+function CaseForm({setCaseItems}) {
 
-   const [jobItem, setJobItem] = useState(EMPTY_JOB_ITEM);
+   const [caseItem, setCaseItem] = useState(EMPTY_CASE_ITEM);
 
    function handleInputChange(event) {
 
       const {name, value} = event.target
 
-      setJobItem((prevProps) => ({...prevProps, [name]: value}));
+      setCaseItem((prevProps) => ({...prevProps, [name]: value}));
    }
 
    function handleSubmit(event) {
 
       event.preventDefault();
 
-      setJobItems(prevJobItems => {
+      setCaseItems(prevCaseItems => {
          return [
-            ...prevJobItems,
-            jobItem
+            ...prevCaseItems,
+            caseItem
          ]
       });
 
-      setJobItem(EMPTY_JOB_ITEM);
+      setCaseItem(EMPTY_CASE_ITEM);
    }
 
    return (
       <form onSubmit={handleSubmit} className="row g-3 p-0">
          <div className="col-6 input-group-sm">
-            <label htmlFor="title" className="form-label">Job Item</label>
+            <label htmlFor="title" className="form-label">Case Item</label>
             <input
                type="text"
                name="title"
                id="title"
-               value={jobItem.title}
+               value={caseItem.title}
                onChange={handleInputChange}
                className="form-control"
             />
@@ -62,7 +62,7 @@ function JobForm({setJobItems}) {
                type="text"
                name="estimatedCost"
                id="estimatedCost"
-               value={jobItem.estimatedCost}
+               value={caseItem.estimatedCost}
                onChange={handleInputChange}
                className="form-control"
             />
@@ -72,7 +72,7 @@ function JobForm({setJobItems}) {
             <textarea
                name="comments"
                id="comments"
-               value={jobItem.comments}
+               value={caseItem.comments}
                onChange={handleInputChange}
                className="form-control">
                </textarea>
@@ -84,7 +84,7 @@ function JobForm({setJobItems}) {
    );
 }
 
-function JobItems({jobItems}) {
+function CaseItems({caseItems}) {
    return (
       <table>
          <thead>
@@ -94,12 +94,12 @@ function JobItems({jobItems}) {
             <th>Notes/Comments</th>
          </tr>
          </thead>
-         {jobItems.map((item) => <JobItem item={item}/>)}
+         {caseItems.map((item) => <CaseItem item={item}/>)}
       </table>
    );
 }
 
-function JobItem({item}) {
+function CaseItem({item}) {
    return (
       <tr>
          <td>{item.title}</td>
@@ -109,4 +109,4 @@ function JobItem({item}) {
    );
 }
 
-export default JobDetails
+export default CaseDetails

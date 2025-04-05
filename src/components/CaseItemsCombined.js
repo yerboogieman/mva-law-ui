@@ -1,58 +1,54 @@
 import {useEffect, useState} from "react";
 
-const JobItemsCombined = () => {
+const CaseItemsCombined = () => {
 
-   const [jobItems, setJobItems] = useState([]);
-   const [jobItem, setJobItem] = useState({});
-
-
+   const [caseItems, setCaseItems] = useState([]);
+   const [caseItem, setCaseItem] = useState({});
 
    const handleInputChange = (event) => {
-      setJobItem((prevProps) => ({
+      setCaseItem((prevProps) => ({
          ...prevProps,
          [event.target.name]: event.target.value
       }));
    };
 
-   const jobItemsHtml = [];
+   const caseItemsHtml = [];
 
    function handleSubmit (event)  {
-
       event.preventDefault();
 
-      jobItems.push(jobItem);
-      setJobItems(jobItems)
+      caseItems.push(caseItem);
+      setCaseItems(caseItems)
 
-      for (let item of jobItems) {
-
-         const jobItem = item.item
+      for (let item of caseItems) {
+         const caseItem = item.item
          const estimatedCost = item.estimatedCost
          const clientId = item.clientId
-         const jobComments = item.jobComments
+         const caseComments = item.caseComments
 
-         jobItemsHtml.push(
+         caseItemsHtml.push(
             <tr>
-               <td>{jobItem}</td>
+               <td>{caseItem}</td>
                <td>{estimatedCost}</td>
                <td>{clientId}</td>
-               <td>{jobComments}</td>
+               <td>{caseComments}</td>
             </tr>
          )
       }
 
-      console.log(jobItemsHtml)
+      console.log(caseItemsHtml)
    }
 
    return (
       <div>
          <form onSubmit={handleSubmit} className="row g-3 p-0">
             <div className="col-12 input-group-sm">
-               <label htmlFor="item" className="form-label">Job Item</label>
+               <label htmlFor="item" className="form-label">Case Item</label>
                <input
                   type="text"
                   name="item"
                   id="item"
-                  value={jobItems.item}
+                  value={caseItems.item}
                   onChange={handleInputChange}
                   className="form-control"
                />
@@ -63,7 +59,7 @@ const JobItemsCombined = () => {
                   type="text"
                   name="estimatedCost"
                   id="estimatedCost"
-                  value={jobItems.estimatedCost}
+                  value={caseItems.estimatedCost}
                   onChange={handleInputChange}
                   className="form-control"
                />
@@ -77,11 +73,11 @@ const JobItemsCombined = () => {
                </select>
             </div>
             <div className="col-md-12 input-group-sm">
-               <label htmlFor="jobComments" className="form-label">Comments</label>
+               <label htmlFor="caseComments" className="form-label">Comments</label>
                <textarea
-                  name="jobComments"
-                  id="jobComments"
-                  value={jobItems.jobComments}
+                  name="caseComments"
+                  id="caseComments"
+                  value={caseItems.caseComments}
                   onChange={handleInputChange}
                   className="form-control">
                </textarea>
@@ -101,12 +97,12 @@ const JobItemsCombined = () => {
                </tr>
                </thead>
                <tbody>
-               {jobItems.map((item) => (
+               {caseItems.map((item) => (
                   <tr>
                      <td>{item.item}</td>
                      <td>{item.estimatedCost}</td>
                      <td>{item.clientId}</td>
-                     <td>{item.jobComments}</td>
+                     <td>{item.caseComments}</td>
                   </tr>
                ))}
                </tbody>
@@ -116,4 +112,4 @@ const JobItemsCombined = () => {
    )
 }
 
-export default JobItemsCombined
+export default CaseItemsCombined 

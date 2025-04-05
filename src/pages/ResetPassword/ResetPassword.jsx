@@ -9,13 +9,13 @@ import Toast from "../../components/Toast/Toast";
 import {LanguageContext} from "../../contexts/LanguageContext";
 import {setCurrentUser} from "../../redux/currentUserHolder";
 import api from "../../utilities/api";
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 import strings from "./i18n-strings";
 
 export default function ResetPassword() {
 
     const language = useContext(LanguageContext);
-    strings.setLanguage(language || jb_utils.get_device_language());
+    strings.setLanguage(language || mva_utils.get_device_language());
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -137,7 +137,7 @@ export default function ResetPassword() {
                         <i className="fa-solid fa-j" style={{transform: "translateX(2px)"}}></i>
                         <i className="fa-solid fa-f" style={{transform: "translateY(-3px)"}}></i>
                     </div>
-                    Job Flow Pro
+                    Case Flow Pro
                 </div>
             </div>
         </nav>
@@ -159,7 +159,7 @@ export default function ResetPassword() {
                                                 .min(5, strings.password_length)
                                                 .test("strongPassword", function (value, context) {
 
-                                                    const password_strength = jb_utils.check_password_strength(value);
+                                                    const password_strength = mva_utils.check_password_strength(value);
                                                     const {color, score} = password_strength;
 
                                                     setPwScore(score);

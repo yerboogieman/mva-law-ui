@@ -10,7 +10,7 @@ const LeftNav = () => {
             <Link to="/" className="navbar-brand">
                 <div className="d-flex align-items-center mb-3">
                     <Brand className="me-2"></Brand>
-                    Job Flow Pro
+                    Case Flow Pro
                 </div>
             </Link>
             <ul className="list-unstyled ps-0">

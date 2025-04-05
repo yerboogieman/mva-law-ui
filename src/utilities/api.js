@@ -1,23 +1,23 @@
 import {API_BASE_URL} from "../Constants";
 import {axiosInstance} from "./axiosInstance";
-import jb_utils from "./functions.jsx";
+import mva_utils from "./functions.jsx";
 
-const jb_api = Object.create(null);
+const mva_api = Object.create(null);
 
-jb_api.base_url = API_BASE_URL;
+mva_api.base_url = API_BASE_URL;
 
-jb_api.get_jwt = function () {
+mva_api.get_jwt = function () {
     return sessionStorage.getItem("jwt") || "";
 };
 
-jb_api.validate = function () {
+mva_api.validate = function () {
 
     // use the roles endpoint to both validate the logged in token
     // and get back what roles the current user has
     return axiosInstance.get("/users/current/validate")
         .then(response => {
             if (response.success === true) {
-                return jb_utils.deep_freeze(response);
+                return mva_utils.deep_freeze(response);
             } else {
                 sessionStorage.clear();
                 return {success: false};
@@ -26,13 +26,13 @@ jb_api.validate = function () {
 };
 
 
-jb_api.get_client_form_data = function () {
+mva_api.get_client_form_data = function () {
 
     // Data needed for user forms includes roles and statuses
 
     return Promise.allSettled([
-        jb_api.get_all_statuses(),
-        jb_api.get_clients()
+        mva_api.get_all_statuses(),
+        mva_api.get_clients()
     ]).then(function (results) {
 
         const [
@@ -46,7 +46,7 @@ jb_api.get_client_form_data = function () {
 
         if (success) {
 
-            return jb_utils.deep_freeze({
+            return mva_utils.deep_freeze({
                 success,
                 statuses: statuses_result.value.data || [],
                 clients: clients_result.value.data || []
@@ -59,16 +59,16 @@ jb_api.get_client_form_data = function () {
     });
 };
 
-jb_api.get_user_form_data = function () {
+mva_api.get_user_form_data = function () {
 
     // Data needed for user forms includes
     // roles, statuses and organizations
 
     return Promise.allSettled([
-        jb_api.get_all_roles(),
-        jb_api.get_all_statuses(),
-        jb_api.get_businesses(),
-        jb_api.get_clients()
+        mva_api.get_all_roles(),
+        mva_api.get_all_statuses(),
+        mva_api.get_businesses(),
+        mva_api.get_clients()
     ]).then(function (results) {
 
         const [
@@ -79,7 +79,7 @@ jb_api.get_user_form_data = function () {
         const success = roles_result.value.success && statuses_result.value.success && businesses_result.value.success;
 
         if (success) {
-            return jb_utils.deep_freeze({
+            return mva_utils.deep_freeze({
                 success,
                 roles: roles_result.value.data || [],
                 statuses: statuses_result.value.data || [],
@@ -93,28 +93,28 @@ jb_api.get_user_form_data = function () {
     });
 };
 
-jb_api.get_all_roles = function () {
+mva_api.get_all_roles = function () {
     return axiosInstance.get("/roles")
         .then(response => {
             return response;
         });
 };
 
-jb_api.get_all_statuses = function () {
+mva_api.get_all_statuses = function () {
     return axiosInstance.get("/users/statuses")
         .then(response => {
             return response;
         });
 };
 
-jb_api.get_businesses = function () {
+mva_api.get_businesses = function () {
     return axiosInstance.get("/organizations")
         .then(response => {
             return response;
         });
 };
 
-jb_api.do_login = function ({
+mva_api.do_login = function ({
     email,
     password
 }) {
@@ -139,7 +139,7 @@ jb_api.do_login = function ({
     });
 };
 
-jb_api.do_signup = function ({
+mva_api.do_signup = function ({
     first_name,
     middle_name,
     last_name,
@@ -175,7 +175,7 @@ jb_api.do_signup = function ({
     return axiosInstance.post("/auth/signup", body);
 };
 
-jb_api.enroll_business = function ({
+mva_api.enroll_business = function ({
     business_name,
     first_name,
     last_name,
@@ -199,7 +199,7 @@ jb_api.enroll_business = function ({
 };
 
 
-jb_api.request_password_reset = function (email = "") {
+mva_api.request_password_reset = function (email = "") {
 
     if (typeof email === "string" && email.length > 0) {
         return axiosInstance.get(`/email/password-reset?u=${btoa(email)}`)
@@ -214,13 +214,13 @@ jb_api.request_password_reset = function (email = "") {
     }));
 };
 
-jb_api.validate_password_reset_token = function (token) {
+mva_api.validate_password_reset_token = function (token) {
     return axiosInstance.post("/auth/validate-change-password-token", {
         token
     }).then(response => response);
 };
 
-jb_api.submit_password_reset = function ({
+mva_api.submit_password_reset = function ({
     password,
     repeat_password,
     token
@@ -233,46 +233,46 @@ jb_api.submit_password_reset = function ({
 };
 
 // the idea is we can look up a set of users against some kind of match
-jb_api.find_user = function () {
+mva_api.find_user = function () {
 
 
 };
 
-jb_api.get_client = function (id) {
+mva_api.get_client = function (id) {
     return axiosInstance.get(`/users/${id}`);
 };
 
-jb_api.get_clients = function () {
+mva_api.get_clients = function () {
     return axiosInstance.get("/clients")
         .then(result => {
             if (result.success === true) {
-                return jb_utils.deep_freeze(result);
+                return mva_utils.deep_freeze(result);
             }
         });
 };
 
-jb_api.delete_client = function (email) {
+mva_api.delete_client = function (email) {
     return axiosInstance.delete(`/clients/${email}`);
 };
 
-jb_api.create_client = function (values) {
+mva_api.create_client = function (values) {
     return axiosInstance.post("/clients", values);
 };
 
 
-jb_api.get_employees = function () {
+mva_api.get_employees = function () {
     return axiosInstance.get("/employees");
 };
 
 // users
-jb_api.get_users = function () {
+mva_api.get_users = function () {
 
     return axiosInstance.get("/users")
         .then(result => {
 
             if (result.success === true) {
 
-                return jb_utils.deep_freeze(result);
+                return mva_utils.deep_freeze(result);
 
             }
 
@@ -280,7 +280,7 @@ jb_api.get_users = function () {
 };
 
 
-jb_api.get_user = function (email) {
+mva_api.get_user = function (email) {
 
     return axiosInstance.get("/users" + email)
         .then(response => {
@@ -291,7 +291,7 @@ jb_api.get_user = function (email) {
 
 };
 
-jb_api.update_user = function (data) {
+mva_api.update_user = function (data) {
 
     const method = data.username === ""
         ? "POST" // create
@@ -306,7 +306,7 @@ jb_api.update_user = function (data) {
     }
 };
 
-jb_api.delete_user = function (username) {
+mva_api.delete_user = function (username) {
     return axiosInstance.delete(`/users/${username}`);
 };
 
@@ -316,7 +316,7 @@ jb_api.delete_user = function (username) {
  * @param {string} config.value - the string to check
  * @returns {Promise<{}>}
  */
-jb_api.check_for_duplicate = function (config) {
+mva_api.check_for_duplicate = function (config) {
 
     const {value} = config;
 
@@ -337,11 +337,11 @@ jb_api.check_for_duplicate = function (config) {
     }));
 };
 
-jb_api.get_user_menu = function () {
+mva_api.get_user_menu = function () {
     return axiosInstance.get("/menus")
         .then(response => {
             if (response.success === true) {
-                return jb_utils.deep_freeze({
+                return mva_utils.deep_freeze({
                     success: true,
                     menu: response.data
                 });
@@ -350,7 +350,7 @@ jb_api.get_user_menu = function () {
         });
 };
 
-jb_api.get_workflow_view = function (process_instance_business_key = "") {
+mva_api.get_workflow_view = function (process_instance_business_key = "") {
 
     if (process_instance_business_key.length === 0) {
         return new Promise(res => res({success: false}));
@@ -364,7 +364,7 @@ jb_api.get_workflow_view = function (process_instance_business_key = "") {
     });
 };
 
-jb_api.update_job = function (values) {
+mva_api.update_case = function (values) {
     return axiosInstance.patch("/cases", {
         id: values.id,
         properties: {
@@ -373,23 +373,23 @@ jb_api.update_job = function (values) {
     });
 };
 
-jb_api.update_whole_job = function (body) {
+mva_api.update_whole_case = function (body) {
     return axiosInstance.put("/cases", body);
 };
 
 
-jb_api.get_job = function (job_id) {
-    return axiosInstance.get(`/cases/${job_id}`).then(response => {
+mva_api.get_case = function (case_id) {
+    return axiosInstance.get(`/cases/${case_id}`).then(response => {
         if (response.success === true) {
-            return jb_utils.deep_freeze(response);
+            return mva_utils.deep_freeze(response);
         } else {
             return {};
         }
     });
 };
 
-jb_api.update_job_item = function (job_id, values) {
-    return axiosInstance.patch(`/cases/${job_id}/items`, {
+mva_api.update_case_item = function (case_id, values) {
+    return axiosInstance.patch(`/cases/${case_id}/items`, {
         id: values.id,
         properties: {
             values
@@ -405,7 +405,7 @@ jb_api.update_job_item = function (job_id, values) {
  * @param {string} step_id - this equates to the task definition key
  * @return {Promise<axios.AxiosResponse<any>>}
  */
-jb_api.get_workflow_panel_data = function (task_id, step_id) {
+mva_api.get_workflow_panel_data = function (task_id, step_id) {
 
 
     return axiosInstance.get(`/workflow-panel?????/${task_id}/${step_id}`)
@@ -415,7 +415,7 @@ jb_api.get_workflow_panel_data = function (task_id, step_id) {
         });
 };
 
-jb_api.get_cases = function (config = {}) {
+mva_api.get_cases = function (config = {}) {
 
     const params = {
         status: config.status || "Active",
@@ -432,7 +432,7 @@ jb_api.get_cases = function (config = {}) {
 
 };
 
-jb_api.create_case = function (config = {}) {
+mva_api.create_case = function (config = {}) {
 
     const body = {
         name: config.name,
@@ -444,7 +444,7 @@ jb_api.create_case = function (config = {}) {
     return axiosInstance.post("/cases", body);
 };
 
-jb_api.complete_workflow_step = function (config = {}) {
+mva_api.complete_workflow_step = function (config = {}) {
 
     const {
         workflow_business_key,
@@ -465,7 +465,7 @@ jb_api.complete_workflow_step = function (config = {}) {
 };
 
 
-jb_api.fetch_step_info_panel = function (process_instance_id, task_definition_key) {
+mva_api.fetch_step_info_panel = function (process_instance_id, task_definition_key) {
 
     return axiosInstance.get(`/tasks/${process_instance_id}/${task_definition_key}`)
         .then(response => {
@@ -473,11 +473,11 @@ jb_api.fetch_step_info_panel = function (process_instance_id, task_definition_ke
         });
 };
 
-jb_api.delete_case = function (job_id) {
-    return axiosInstance.delete("/cases/" + job_id);
+mva_api.delete_case = function (case_id) {
+    return axiosInstance.delete("/cases/" + case_id);
 };
 
-jb_api.modify_job = function (config = {}) {
+mva_api.modify_case = function (config = {}) {
 
     const body = {
         id: config.id,
@@ -490,7 +490,6 @@ jb_api.modify_job = function (config = {}) {
     return axiosInstance.patch("/cases", body);
 };
 
-
-const api = jb_utils.deep_freeze(jb_api);
+const api = mva_utils.deep_freeze(mva_api);
 
 export default api;

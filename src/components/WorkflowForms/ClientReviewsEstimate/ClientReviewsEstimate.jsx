@@ -7,11 +7,11 @@ import {LanguageContext} from "../../../contexts/LanguageContext";
 import Toast from "../../../components/Toast/Toast";
 import * as Yup from "yup";
 import api from "../../../utilities/api.js";
-import jb_utils from "../../../utilities/functions.jsx";
+import mva_utils from "../../../utilities/functions.jsx";
 
 import strings from "./i18n-strings";
 
-export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
+export default function ClientReviewsEstimate({caseId = "", setSelectedStep}) {
 
    const user_roles = useSelector(state => state.currentUserHolder.roles);
 
@@ -20,10 +20,10 @@ export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
    const formikRef = useRef();
 
    const language = useContext(LanguageContext);
-   strings.setLanguage(language || jb_utils.get_device_language());
+   strings.setLanguage(language || mva_utils.get_device_language());
 
    const [panelData, setPanelData] = useState({});
-   const [disapprovedJobItems, setDisapprovedJobItems] = useState([]);
+   const [disapprovedCaseItems, setDisapprovedCaseItems] = useState([]);
 
    const [toastConfig, setToastConfig] = useState({
       show: false,
@@ -63,21 +63,21 @@ export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
 
    useEffect(() => {
 
-      if (typeof jobId === "string" && jobId.length > 0) {
-         api.get_job(jobId)
+      if (typeof caseId === "string" && caseId.length > 0) {
+         api.get_case(caseId)
             .then(result => {
                if (result.success === true) {
                   setPanelData(result);
                }
             });
       }
-   }, [jobId]);
+   }, [caseId]);
 
    function submit_workflow_step(values) {
-      api.update_whole_job(values)
-         .then(job_result => {
+      api.update_whole_case(values)
+         .then(case_result => {
 
-            if (job_result.success === true) {
+            if (case_result.success === true) {
 
 
                const task_definition_key = "clientReviewsEstimate";
@@ -137,7 +137,7 @@ export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
                onSubmit={submit_workflow_step}
                validationSchema={Yup.object({
                   name: Yup.string().required(
-                     strings.formatString(`${strings.job} ${strings.name}`,
+                     strings.formatString(`${strings.case} ${strings.name}`,
                         strings.yup.is_required)),
                   description: Yup.string().notRequired()
                })}
@@ -150,18 +150,18 @@ export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
                      <Field type="hidden" name="id"></Field>
 
                      <div className="mb-3">
-                        <label htmlFor="name" className="form-label tc">{strings.job} {strings.name}</label>
+                        <label htmlFor="name" className="form-label tc">{strings.case} {strings.name}</label>
                         <Field type="text" name="name" id="name" className="form-control" disabled={true}/>
                      </div>
                      <div className="mb-3">
                         <label htmlFor="description"
-                               className="form-label tc">{strings.job} {strings.description}</label>
+                               className="form-label tc">{strings.case} {strings.description}</label>
                         <Field type="text" name="description" id="description"
                                className="form-control" disabled={true}/>
                      </div>
 
                      <div>
-                        <h4>{strings.job + " " + strings.item + "s"}</h4>
+                        <h4>{strings.case + " " + strings.item + "s"}</h4>
 
                         <FieldArray name="items">
                            {
@@ -171,10 +171,10 @@ export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
                                        values.items.map(function (item, index) {
 
                                           const approved = item.approved === true;
-                                          // const disapproved = disapprovedJobItems.some(
+                                          // const disapproved = disapprovedCaseItems.some(
                                           //     e => e === item.id);
                                           return <div className="border border-1 rounded p-3 mb-3"
-                                                      key={index + "job-item"}>
+                                                      key={index + "case-item"}>
                                              <div className="row" key={index + "-step"}>
                                                 <div className="col">
                                                    <div className="row">
@@ -245,7 +245,7 @@ export default function ClientReviewsEstimate({jobId = "", setSelectedStep}) {
                                                                      onClick={(event) => {
                                                                         setFieldValue(`items.${index}.approved`, false);
                                                                      }}>
-                                                                     Disapprove job item
+                                                                     Disapprove case item
                                                                   </button>
                                                                : <></>
                                                          }</>

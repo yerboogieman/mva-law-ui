@@ -1,15 +1,15 @@
 import React from "react";
 import zxcvbn from "zxcvbn";
 
-const jb_utils = Object.create(null);
+const mva_utils = Object.create(null);
 
-jb_utils.deep_freeze = function (object) {
+mva_utils.deep_freeze = function (object) {
     if (typeof object === "object") {
         Object.keys(object).forEach(function (key) {
             (
                 typeof object[key] === "object"
                 && !Object.isFrozen(object[key])
-            ) && jb_utils.deep_freeze(object[key]);
+            ) && mva_utils.deep_freeze(object[key]);
         });
 
         return Object.freeze(object);
@@ -18,7 +18,7 @@ jb_utils.deep_freeze = function (object) {
     }
 };
 
-jb_utils.deep_merge = function (original_target, original_source) {
+mva_utils.deep_merge = function (original_target, original_source) {
 
     if (!is_obj(original_target) || !is_obj(original_source)) {
         return original_source;
@@ -34,7 +34,7 @@ jb_utils.deep_merge = function (original_target, original_source) {
         if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
             target[key] = targetValue.concat(sourceValue);
         } else if (is_obj(targetValue) && is_obj(sourceValue)) {
-            target[key] = jb_utils.deep_merge(Object.assign({}, targetValue), sourceValue);
+            target[key] = mva_utils.deep_merge(Object.assign({}, targetValue), sourceValue);
         } else {
             target[key] = sourceValue;
         }
@@ -53,7 +53,7 @@ function is_obj(item) {
  * @param {boolean} format - convert to a en-US string
  * @returns {string} date time
  */
-jb_utils.gmt_to_local = function (date, format = false) {
+mva_utils.gmt_to_local = function (date, format = false) {
     try {
         if (typeof date === "string") {
 
@@ -85,7 +85,7 @@ jb_utils.gmt_to_local = function (date, format = false) {
     }
 };
 
-jb_utils.debounce = function (func, wait, immediate) {
+mva_utils.debounce = function (func, wait, immediate) {
     let timeout;
     return function () {
         const args = arguments;
@@ -109,7 +109,7 @@ jb_utils.debounce = function (func, wait, immediate) {
     };
 };
 
-jb_utils.number_to_usd = function (number) {
+mva_utils.number_to_usd = function (number) {
     // used to format a float into a standard US currency value
     const currencyFormatter = Intl.NumberFormat("en-US", {style: "currency", currency: "USD"});
     return currencyFormatter.format(number);
@@ -121,7 +121,7 @@ jb_utils.number_to_usd = function (number) {
  * @param {function=} callback
  * @returns {Readonly<{feedback, score, color: (string|*)}>}
  */
-jb_utils.check_password_strength = function (password, callback) {
+mva_utils.check_password_strength = function (password, callback) {
 
     const {score, feedback} = zxcvbn(password);
 
@@ -158,11 +158,11 @@ jb_utils.check_password_strength = function (password, callback) {
  * @param {number|String} action - The action number we are checking.
  * @returns {boolean} - True if user has access to this action.
  */
-jb_utils.get_access = function (allowed_actions, action) {
+mva_utils.get_access = function (allowed_actions, action) {
     return allowed_actions.some(e => e === parseInt(action));
 };
 
-jb_utils.format_bytes = function (bytes, decimals = 2) {
+mva_utils.format_bytes = function (bytes, decimals = 2) {
 
     if (bytes === 0) {
         return "0 Bytes";
@@ -177,7 +177,7 @@ jb_utils.format_bytes = function (bytes, decimals = 2) {
     ).toFixed(dm)) + sizes[i];
 };
 
-jb_utils.format_phone = function (phone_number) {
+mva_utils.format_phone = function (phone_number) {
     // try to coerce the phone number for display, if necessary
     // just a best faith effort on the number length, if it's just a number
 
@@ -202,7 +202,7 @@ jb_utils.format_phone = function (phone_number) {
     }
 };
 
-jb_utils.format_date_to_time = function (datetime) {
+mva_utils.format_date_to_time = function (datetime) {
     return new Date(datetime).toLocaleTimeString([], {
         hour: "numeric",
         minute: "numeric"
@@ -213,7 +213,7 @@ jb_utils.format_date_to_time = function (datetime) {
  * @param {Date} datetime
  * @returns {string}
  */
-jb_utils.format_datetime = function (datetime) {
+mva_utils.format_datetime = function (datetime) {
 
     if (datetime instanceof Date && datetime.toString() !== "Invalid Date") {
         return datetime.toLocaleString("en-US");
@@ -229,7 +229,7 @@ jb_utils.format_datetime = function (datetime) {
  * A helpful little function that shows the Bootstrap breakpoints in the bottom corner.
  * @returns {JSX.Element}
  */
-jb_utils.show_breakpoints = function () {
+mva_utils.show_breakpoints = function () {
     return <div className="rounded position-fixed bottom-0 end-0 px-2 bg-dark bg-opacity-75 text-warning" style={
         {zIndex: 10000}
     }>
@@ -248,17 +248,17 @@ jb_utils.show_breakpoints = function () {
  * @param {string} order
  * @returns {Array} - A sorted and frozen array, or an empty array
  */
-jb_utils.sort_by_datetime = function (data, property_name = "created", order = "descending") {
+mva_utils.sort_by_datetime = function (data, property_name = "created", order = "descending") {
     // clone array in case it is frozen
     const to_sort = Array.isArray(data) ? [...data] : [];
 
     if (to_sort.length > 0) {
         if (order === "ascending") {
-            return jb_utils.deep_freeze(to_sort.sort(function (a, b) {
+            return mva_utils.deep_freeze(to_sort.sort(function (a, b) {
                 return Date.parse(a[property_name]) - Date.parse(b[property_name]);
             }));
         } else {
-            return jb_utils.deep_freeze(to_sort.sort(function (a, b) {
+            return mva_utils.deep_freeze(to_sort.sort(function (a, b) {
                 return Date.parse(b[property_name]) - Date.parse(a[property_name]);
             }));
         }
@@ -267,21 +267,21 @@ jb_utils.sort_by_datetime = function (data, property_name = "created", order = "
     }
 };
 
-// jb_utils.check_email_for_duplicate = checkEmail;
+// mva_utils.check_email_for_duplicate = checkEmail;
 
 /**
  *
  * @param {Date} date
  * @returns {boolean} isToday
  */
-jb_utils.date_is_today = function (date) {
+mva_utils.date_is_today = function (date) {
     if (date instanceof Date && isFinite(date)) {
         return new Date().toLocaleDateString() === date.toLocaleDateString();
     }
     return false;
 };
 
-jb_utils.get_today = function () {
+mva_utils.get_today = function () {
     const d = new Date();
     return {
         day: d.toLocaleDateString("en-US", {day: "numeric"}),
@@ -290,7 +290,7 @@ jb_utils.get_today = function () {
     };
 };
 
-jb_utils.get_yesterday = function () {
+mva_utils.get_yesterday = function () {
     const d = new Date(new Date() - 864e5);
     return {
         day: d.toLocaleDateString("en-US", {day: "numeric"}),
@@ -313,7 +313,7 @@ jb_utils.get_yesterday = function () {
  * @param {String} [range.type='month'] - calculate using days or months
  * @returns {DateRange} - a date range with two Date objects
  */
-jb_utils.get_date_for_range = function (range = {from: "3", to: "now", type: "month"}) {
+mva_utils.get_date_for_range = function (range = {from: "3", to: "now", type: "month"}) {
 
     const {from: filter_from, to: filter_to, type = "month"} = range;
 
@@ -359,7 +359,7 @@ jb_utils.get_date_for_range = function (range = {from: "3", to: "now", type: "mo
     };
 };
 
-jb_utils.get_date_months_ago = function (months = 0) {
+mva_utils.get_date_months_ago = function (months = 0) {
     const months_ago = new Date();
     months_ago.setMonth(months_ago.getMonth() - months);
     months_ago.setDate(1);
@@ -370,7 +370,7 @@ jb_utils.get_date_months_ago = function (months = 0) {
  *
  * @param {Array<string>} values - an array of strings parsable to floats, e.g. 12.34
  */
-jb_utils.add_money = function (values = []) {
+mva_utils.add_money = function (values = []) {
     return (
         values.reduce(function (accumulator, current_value) {
             // convert current_value to float and multiply by 100 to remove decimals
@@ -392,7 +392,7 @@ jb_utils.add_money = function (values = []) {
  * @param {string} string - the string to be tested
  * @returns {boolean}
  */
-jb_utils.is_integer = function (string = "") {
+mva_utils.is_integer = function (string = "") {
 
     if (typeof string === "string") {
         return Array.isArray(string.match(/^\d+$/g));
@@ -402,7 +402,7 @@ jb_utils.is_integer = function (string = "") {
 
 };
 
-jb_utils.number_with_commas = function (number) {
+mva_utils.number_with_commas = function (number) {
 
     const n = parseFloat(number);
 
@@ -421,7 +421,7 @@ jb_utils.number_with_commas = function (number) {
  * @param {Array<string>} names - names to return initials for
  * @returns {String} initials
  */
-jb_utils.get_initials = function (names = []) {
+mva_utils.get_initials = function (names = []) {
     return names.reduce(function (initials, name) {
         if (typeof name === "string") {
             return initials + name.charAt(0).toUpperCase();
@@ -434,15 +434,15 @@ jb_utils.get_initials = function (names = []) {
 const currencyFormatter = Intl.NumberFormat("en-US", {style: "currency", currency: "USD"});
 
 // to format the y-axis labels of the bar chart
-jb_utils.tick_format = function (label) {
+mva_utils.tick_format = function (label) {
     return `${currencyFormatter.format(label).split(".")[0]}`;
 };
 
-jb_utils.logout = function () {
+mva_utils.logout = function () {
     sessionStorage.removeItem("token");
 };
 
-jb_utils.get_device_language = function () {
+mva_utils.get_device_language = function () {
 
     const l = navigator.language;
 
@@ -458,7 +458,7 @@ jb_utils.get_device_language = function () {
 
 };
 
-jb_utils.deep_freeze(jb_utils);
+mva_utils.deep_freeze(mva_utils);
 
 // async function checkEmail(email) {
 //
@@ -482,4 +482,4 @@ jb_utils.deep_freeze(jb_utils);
 //     });
 // }
 
-export default jb_utils;
+export default mva_utils;

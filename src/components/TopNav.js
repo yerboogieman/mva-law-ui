@@ -12,7 +12,7 @@ export default function TopNav() {
                         <i className="fa-solid fa-j" style={{transform: "translateX(2px)"}}></i>
                         <i className="fa-solid fa-f" style={{transform: "translateY(-3px)"}}></i>
                     </div>
-                    Job Flow Pro
+                    Case Flow Pro
                 </div>
                 <div>
                     <button className="navbar-toggler pe-5" type="button" data-bs-toggle="collapse"

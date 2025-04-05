@@ -1,5 +1,5 @@
 import LocalizedStrings from "react-localization";
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 
 import global_strings from "../../utilities/i18n-strings-global";
 
@@ -31,7 +31,7 @@ const local = {
         }
     },
     "es": {
-        password: "contrasena",
+        password: "contraseña",
         repeat_password: "Repita la contraseña",
         password_strength: "Seguridad de la contraseña",
         password_length: "La contraseña debe tener 5 caracteres.",
@@ -57,7 +57,7 @@ const local = {
     }
 };
 
-const merged = jb_utils.deep_merge(global_strings, local);
+const merged = mva_utils.deep_merge(global_strings, local);
 
 const strings = new LocalizedStrings(merged);
 

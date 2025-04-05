@@ -10,7 +10,7 @@ import BusinessModal from "../../components/BusinessModal/BusinessModal";
 import {MessageContextDispatch} from "../../contexts/MessagesContext";
 import api from "../../utilities/api";
 
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 
 export default function Businesses() {
 
@@ -104,7 +104,7 @@ export default function Businesses() {
             name: "Phone",
             selector: row => row.phone,
             cell: row => <span className="fs-14 fw-500 text-gray-500">
-                {jb_utils.format_phone(row.phone) || "No phone"}</span>
+                {mva_utils.format_phone(row.phone) || "No phone"}</span>
         },
         {
             name: "Location",
@@ -132,7 +132,7 @@ export default function Businesses() {
         setShowBusinessModal(true);
     };
 
-    function create_fake_job() {
+    function create_fake_case() {
 
         api.create_case()
             .then(function (response) {
@@ -149,9 +149,9 @@ export default function Businesses() {
             });
     }
 
-    function modify_job() {
+    function modify_case() {
 
-        api.modify_job({
+        api.modify_case({
             name: "Blagart",
             description: "This newnewnewnew boss",
             id: "6632f5f5437edb51a14a9ec5"
@@ -165,14 +165,14 @@ export default function Businesses() {
     return <>
         <div className="d-flex justify-content-between">
             <h1 className="mt-0 text-gray-900">All Companies</h1>
-            <button onClick={create_fake_job}>
-                Create Fake Job
+            <button onClick={create_fake_case}>
+                Create Fake Case
             </button>
-            <button onClick={modify_job}>
-                Modify Fake Job
+            <button onClick={modify_case}>
+                Modify Fake Case
             </button>
             <button onClick={delete_case}>
-                Delete Fake Job
+                Delete Fake Case
             </button>
             <div>
                 <Button className="ms-4" onClick={() => {

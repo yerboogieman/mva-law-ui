@@ -111,7 +111,7 @@ export default function BusinessModal({
                             .typeError(strings.yup.integer_type_error)
                             .min(10, strings.formatString(strings.yup.min_integer, 10)) // email: Yup.string()
                         //     .test("uniqueEmail", async function (value, context) {
-                        //         const check_result = await jb_utils.check_email_for_duplicate(value, context);
+                        //         const check_result = await mva_utils.check_email_for_duplicate(value, context);
                         //         return check_result === true || context.createError(
                         //             {message: strings.yup.email_invalid});
                         //     })

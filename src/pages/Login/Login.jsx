@@ -9,14 +9,14 @@ import {LanguageContext} from "../../contexts/LanguageContext";
 import {setCurrentUser} from "../../redux/currentUserHolder";
 
 import api from "../../utilities/api";
-import jb_utils from "../../utilities/functions.jsx";
+import mva_utils from "../../utilities/functions.jsx";
 
 import strings from "./i18n-strings";
 
 export default function Login() {
 
     const language = useContext(LanguageContext);
-    strings.setLanguage(language || jb_utils.get_device_language());
+    strings.setLanguage(language || mva_utils.get_device_language());
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function Login() {
     });
 
     useEffect(() => {
-        jb_utils.logout();
+        mva_utils.logout();
     }, []);
 
     function onSubmit(values) {

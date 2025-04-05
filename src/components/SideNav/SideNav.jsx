@@ -79,7 +79,7 @@ export default function SideNav() {
             <Link to="/" className="navbar-brand">
                 <div className="d-flex align-items-center mb-3">
                     <Brand className="me-2"></Brand>
-                    Job Flow Pro
+                    Case Flow Pro
                 </div>
             </Link>
             <ul className="menu list-unstyled">

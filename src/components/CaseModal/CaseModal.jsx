@@ -9,10 +9,10 @@ import api from "../../utilities/api";
 import Select from "react-select";
 import ClientForm from "../ClientForm/ClientForm";
 
-export default function JobModal({
+export default function CaseModal({
     show,
     setShow,
-    job = {},
+    case_data = {},
     onUpdate
 }) {
 
@@ -20,7 +20,7 @@ export default function JobModal({
 
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(true);
-    const [creatingJob, setCreatingJob] = useState(false);
+    const [creatingCase, setCreatingCase] = useState(false);
 
     const [showAddClient, setShowAddClient] = useState(false);
     const [selectedClient, setSelectedClient] = useState({});
@@ -65,17 +65,17 @@ export default function JobModal({
             });
     }
 
-    const init_job = {
+    const init_case = {
         new: true,
-        name: job.name || "",
-        description: job.description || "",
-        due: job.due || "",
-        assignee: job.assignee || "",
+        name: case_data.name || "",
+        description: case_data.description || "",
+        due: case_data.due || "",
+        assignee: case_data.assignee || "",
         clientId: selectedClient || null,
-        status: job.status || "Active"
+        status: case_data.status || "Active"
     };
 
-    function updateJob(values) {
+    function updateCase(values) {
         const body = {
             name: values.name,
             description: values.description,
@@ -83,7 +83,7 @@ export default function JobModal({
             items: values.items || []
         };
 
-        api.update_job(body)
+        api.update_case(body)
             .then(result => {
                 if (result.success === true) {
                     setShow(false);
@@ -106,13 +106,13 @@ export default function JobModal({
             items: values.items || []
         };
 
-        setCreatingJob(true);
+        setCreatingCase(true);
 
         api.create_case(body)
             .then(result => {
                 if (result.success === true) {
                     setShow(false);
-                    const job_name = result?.name || "Job";
+                    const case_name = result?.name || "Case";
 
                     if (typeof onUpdate === "function") {
                         onUpdate();
@@ -120,11 +120,11 @@ export default function JobModal({
 
                     toast({
                         type: "show_toast",
-                        header_text: "Job created",
-                        body_text: <>{job_name} was successfully created. Click <Link to={`/workflow-manager?id=${result.id}`}>here</Link> to create the estimate.</>,
+                        header_text: "Case created",
+                        body_text: <>{case_name} was successfully created. Click <Link to={`/workflow-manager?id=${result.id}`}>here</Link> to create the estimate.</>,
                         variant: "success"
                     });
-                    setCreatingJob(false);
+                    setCreatingCase(false);
                 }
             });
     }
@@ -146,12 +146,12 @@ export default function JobModal({
                   size="lg" centered>
         <Modal.Header closeButton>
             <Modal.Title className="fs-14 fw-500 text-gray-700">
-                Job Details
+                Case Details
             </Modal.Title>
         </Modal.Header>
         <>
             <Formik validateOnChange={false}
-                    initialValues={init_job}
+                    initialValues={init_case}
                     validationSchema={Yup.object({
                         name: Yup.string().required()
                     })}
@@ -165,7 +165,7 @@ export default function JobModal({
                                 ? <div className="px-3 pb-3 ">
                                     <Row>
                                         <Col>
-                                            <label className="form-label">Job Name</label>
+                                            <label className="form-label">Case Name</label>
                                             <Placeholder/>
                                         </Col>
                                         <Col>
@@ -217,9 +217,9 @@ export default function JobModal({
                                             <Form autoComplete="false">
                                                 <Row>
                                                     <Col>
-                                                        <label className="form-label mt-3">Job Name</label>
+                                                        <label className="form-label mt-3">Case Name</label>
                                                         <Field type="text" name="name" className="form-control mb-3"
-                                                               required disabled={creatingJob}/>
+                                                               required disabled={creatingCase}/>
                                                         <ErrorMessage name="name" component="div"
                                                                       className="alert alert-danger"/>
                                                     </Col>
@@ -238,14 +238,14 @@ export default function JobModal({
 
                                                         <label className="form-label">Client</label>
                                                         <div className="d-flex">
-                                                            <Field name="client" disabled={creatingJob}
+                                                            <Field name="client" disabled={creatingCase}
                                                                    component={() =>
                                                                        <>
                                                                            <Select id="client-select" name="client"
                                                                                    inputId="client"
                                                                                    className="w-100 mb-3"
                                                                                    blurInputOnSelect={true}
-                                                                                   disabled={creatingJob}
+                                                                                   disabled={creatingCase}
                                                                                    placeholder="Select or add client"
                                                                                    onChange={(selected, {action}) => {
                                                                                        if (action === "select-option") {
@@ -264,7 +264,7 @@ export default function JobModal({
                                                                                            true)}
                                                                                        className="btn-link">create
                                                                                        one</a> to
-                                                                                       finish setting up this job.
+                                                                                       finish setting up this case.
                                                                                    </div>}
                                                                                    isSearchable={true}/>
                                                                        </>
@@ -273,7 +273,7 @@ export default function JobModal({
                                                             </Field>
                                                             <div className="ms-2">
                                                                 <Button type="button"
-                                                                        disabled={creatingJob}
+                                                                        disabled={creatingCase}
                                                                         variant="primary"
                                                                         onClick={() => setShowAddClient(
                                                                             true)}>New</Button>
@@ -282,10 +282,10 @@ export default function JobModal({
 
                                                     </Col>
                                                 </Row>
-                                                <Button type="submit" className="w-100" disabled={false && creatingJob}>
-                                                    {creatingJob
+                                                <Button type="submit" className="w-100" disabled={false && creatingCase}>
+                                                    {creatingCase
                                                         ? "Saving"
-                                                        : "Save Job"}
+                                                        : "Save Case"}
                                                 </Button>
 
                                             </Form>
@@ -322,4 +322,4 @@ export default function JobModal({
             </Formik>
         </>
     </Modal>;
-}
+} 
