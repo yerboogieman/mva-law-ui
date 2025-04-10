@@ -15,7 +15,6 @@ export default function WorkflowView({
     const id = listItem.id || "";
 
     useEffect(function () {
-
         // when selectedStep is changed by one of the steps,
         // we need to reload the workflow view to pick up any changes
         if (typeof selectedStep === "string" && selectedStep.length > 0) {
@@ -26,7 +25,7 @@ export default function WorkflowView({
                     }
                 });
         }
-    }, []);
+    }, [selectedStep, id]);
 
     useEffect(function () {
         if (id === "") { // this should never happen

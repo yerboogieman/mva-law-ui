@@ -114,6 +114,19 @@ mva_api.get_businesses = function () {
         });
 };
 
+mva_api.get_types = function (endpoint) {
+    // Generic function, ensure Accept header is set for JSON response
+    return axiosInstance.get(endpoint, {
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+        .then(response => {
+            // The interceptor already handles freezing and success property
+            return response;
+        });
+};
+
 mva_api.do_login = function ({
     email,
     password
@@ -281,14 +294,10 @@ mva_api.get_users = function () {
 
 
 mva_api.get_user = function (email) {
-
     return axiosInstance.get("/users" + email)
         .then(response => {
-
-            console.log(response);
-
+            return response;
         });
-
 };
 
 mva_api.update_user = function (data) {
@@ -435,7 +444,7 @@ mva_api.get_cases = function (config = {}) {
 mva_api.create_case = function (config = {}) {
 
     const body = {
-        name: config.name,
+        title: config.title,
         description: config.description,
         clientId: config.client_id,
         items: config.items
@@ -488,6 +497,12 @@ mva_api.modify_case = function (config = {}) {
     };
 
     return axiosInstance.patch("/cases", body);
+};
+
+// Organizations (including Medical Providers)
+mva_api.create_organization = function (providerData) {
+    // Assuming providerData has the correct structure { name, address, phone, website, types: [...] }
+    return axiosInstance.post("/organizations", providerData);
 };
 
 const api = mva_utils.deep_freeze(mva_api);
