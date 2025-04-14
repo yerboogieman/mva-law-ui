@@ -5,7 +5,7 @@ import ClientReviewsEstimate from "../../components/WorkflowForms/ClientReviewsE
 import CreateEstimate from "../../components/WorkflowForms/CreateEstimate/CreateEstimate";
 import RedoEstimate from "../../components/WorkflowForms/RedoEstimate/RedoEstimate";
 import IntroAndInitialAdvice from "../../components/WorkflowForms/NewClientSignup/IntroAndInitialAdvice/IntroAndInitialAdvice";
-import GatherInfoForm from "../../components/WorkflowForms/NewClientSignup/GatherInfo/GatherInfo.jsx";
+import GatherInfo from "../../components/WorkflowForms/NewClientSignup/GatherInfo/GatherInfo.jsx";
 
 export default function WorkflowPanel({
     listItem,
@@ -46,7 +46,7 @@ export default function WorkflowPanel({
                 }}/>;
             }
             case "gatherInformation": {
-                return <GatherInfoForm caseId={caseId} setSelectedStep={setSelectedStep}/>;
+                return <GatherInfo caseId={caseId} setSelectedStep={setSelectedStep}/>;
             }
             case "createEstimate": {
                 return <CreateEstimate caseId={caseId} setSelectedStep={
