@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Container, Card, Form, Button, Row, Col, ListGroup} from 'react-bootstrap';
-import {Formik, Field, ErrorMessage, FieldArray} from 'formik';
+import {Button, Card, Col, Container, Form, ListGroup, Row} from 'react-bootstrap';
+import {ErrorMessage, FieldArray, Formik} from 'formik';
 import * as Yup from 'yup';
-import {FaTrash, FaPlus, FaEdit} from 'react-icons/fa';
+import {FaEdit, FaPlus, FaTrash} from 'react-icons/fa';
 import api from '../../../../utilities/api';
 import {MessageContextDispatch} from '../../../../contexts/MessagesContext';
 import MedicalProviderModal from './MedicalProviderModal';
