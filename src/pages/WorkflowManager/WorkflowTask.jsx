@@ -21,7 +21,7 @@ export default function WorkflowTask(props) {
     }}
                className={className}
                key={"workflow-list-item-" + id}>
-        <div className="text-">{id}</div>
+        {/* <div className="text-">{id}</div> */}
         <strong>{name}</strong>
         <div>{description}</div>
     </li>;

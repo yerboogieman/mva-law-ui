@@ -67,7 +67,7 @@ export default function CaseModal({
 
     const init_case = {
         new: true,
-        name: case_data.name || "",
+        title: case_data.title || "",
         description: case_data.description || "",
         due: case_data.due || "",
         assignee: case_data.assignee || "",
@@ -77,7 +77,7 @@ export default function CaseModal({
 
     function updateCase(values) {
         const body = {
-            name: values.name,
+            title: values.title,
             description: values.description,
             clientId: values.client,
             items: values.items || []
@@ -100,7 +100,7 @@ export default function CaseModal({
 
     function create_case(values) {
         const body = {
-            name: values.name,
+            title: values.title,
             description: values.description,
             client_id: values.client,
             items: values.items || []
@@ -112,7 +112,7 @@ export default function CaseModal({
             .then(result => {
                 if (result.success === true) {
                     setShow(false);
-                    const case_name = result?.name || "Case";
+                    const case_name = result?.title || "Case";
 
                     if (typeof onUpdate === "function") {
                         onUpdate();
@@ -124,8 +124,24 @@ export default function CaseModal({
                         body_text: <>{case_name} was successfully created. Click <Link to={`/workflow-manager?id=${result.id}`}>here</Link> to create the estimate.</>,
                         variant: "success"
                     });
-                    setCreatingCase(false);
+                } else {
+                    toast({
+                        type: "show_toast",
+                        header_text: "Error",
+                        body_text: "Failed to create case. Please try again.",
+                        variant: "danger"
+                    });
                 }
+                setCreatingCase(false);
+            })
+            .catch(error => {
+                toast({
+                    type: "show_toast",
+                    header_text: "Error",
+                    body_text: "An unexpected error occurred. Please try again.",
+                    variant: "danger"
+                });
+                setCreatingCase(false);
             });
     }
 
@@ -153,7 +169,7 @@ export default function CaseModal({
             <Formik validateOnChange={false}
                     initialValues={init_case}
                     validationSchema={Yup.object({
-                        name: Yup.string().required()
+                        title: Yup.string().required()
                     })}
                     onSubmit={(values, actions) => {
                         create_case(values, actions);
@@ -165,7 +181,7 @@ export default function CaseModal({
                                 ? <div className="px-3 pb-3 ">
                                     <Row>
                                         <Col>
-                                            <label className="form-label">Case Name</label>
+                                            <label className="form-label">Case Title</label>
                                             <Placeholder/>
                                         </Col>
                                         <Col>
@@ -217,10 +233,10 @@ export default function CaseModal({
                                             <Form autoComplete="false">
                                                 <Row>
                                                     <Col>
-                                                        <label className="form-label mt-3">Case Name</label>
-                                                        <Field type="text" name="name" className="form-control mb-3"
+                                                        <label className="form-label mt-3">Title</label>
+                                                        <Field type="text" name="title" className="form-control mb-3"
                                                                required disabled={creatingCase}/>
-                                                        <ErrorMessage name="name" component="div"
+                                                        <ErrorMessage name="title" component="div"
                                                                       className="alert alert-danger"/>
                                                     </Col>
                                                 </Row>
@@ -282,9 +298,9 @@ export default function CaseModal({
 
                                                     </Col>
                                                 </Row>
-                                                <Button type="submit" className="w-100" disabled={false && creatingCase}>
+                                                <Button type="submit" className="w-100" disabled={creatingCase}>
                                                     {creatingCase
-                                                        ? "Saving"
+                                                        ? "Saving..."
                                                         : "Save Case"}
                                                 </Button>
 
